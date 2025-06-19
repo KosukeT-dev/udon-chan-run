@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>走れ！うどんちゃん！</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "DotGothic16", sans-serif;
+            background: linear-gradient(135deg, #FFE4B5 0%, #FFF8DC 50%, #F0E68C 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px 30px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FF6B35;
+            text-shadow: 3px 3px 0px #FFD700;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .character-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .character-image:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .instructions {
+            background: #FFF8DC;
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .instructions h3 {
+            color: #FF6B35;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .instructions ul {
+            text-align: left;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .instructions li:before {
+            content: "🍜";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .start-button {
+            font-family: "DotGothic16", sans-serif;
+            background: linear-gradient(45deg, #FF6B35, #FF8C42);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .start-button:hover {
+            background: linear-gradient(45deg, #FF8C42, #FF6B35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.4);
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .title {
+                font-size: 2.2rem;
+            }
+
+            .character-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .instructions {
+                font-size: 1rem;
+                padding: 20px;
+            }
+
+            .instructions h3 {
+                font-size: 1.3rem;
+            }
+
+            .start-button {
+                font-size: 1.2rem;
+                padding: 12px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .character-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .instructions {
+                font-size: 0.9rem;
+                padding: 15px;
+            }
+
+            .start-button {
+                font-size: 1rem;
+                padding: 10px 25px;
+            }
+        }
+
+        /* 背景アニメーション */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 140, 66, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 107, 53, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">走れ！うどんちゃん！</h1>
+        
+        <img src="images/udon-chan.png" alt="うどんちゃん" class="character-image">
+        
+        <div class="instructions">
+            <h3>遊び方</h3>
+            <ul>
+                <li>うどんちゃんを操作して崖に落ちないようにしよう</li>
+                <li>スペースキーまたはタップでジャンプ</li>
+                <li>できるだけ長い距離を走り続けよう</li>
+            </ul>
+        </div>
+        
+        <button class="start-button" onclick="window.location.href='game.html'">ゲームスタート</button>
+    </div>
+
+</body>
+</html>
