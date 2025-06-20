@@ -684,7 +684,7 @@
             scoreDisplay.style.display = 'block';
             gameInstructions.style.display = 'block';
             
-            // BGMを再生（ユーザーの操作後なので再生可能）
+            // BGMを再生
             bgm.currentTime = 0;
             bgm.play().catch(e => {
                 console.log('BGM playback failed:', e);
