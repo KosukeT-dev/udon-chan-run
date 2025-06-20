@@ -14,6 +14,12 @@
             box-sizing: border-box;
         }
 
+        body,
+        #gameContainer,
+        .screen {
+            height: calc(var(--vh, 1vh) * 100);
+        }
+
         body {
             font-family: "DotGothic16", sans-serif;
             background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 100%);
@@ -70,6 +76,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -87,12 +94,19 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
                 transform: translateY(0);
             }
+
             40% {
                 transform: translateY(-10px);
             }
+
             60% {
                 transform: translateY(-5px);
             }
@@ -466,48 +480,48 @@
                 margin-bottom: 15px;
                 margin-top: 10px;
             }
-            
+
             .character-image {
                 width: 120px;
                 height: 120px;
                 margin: 10px auto;
             }
-            
+
             .instructions {
                 font-size: 1rem;
                 padding: 20px;
                 margin: 15px 0;
                 max-width: 450px;
             }
-            
+
             .instructions h3 {
                 font-size: 1.3rem;
                 margin-bottom: 12px;
             }
-            
+
             .instructions li {
                 margin: 8px 0;
                 font-size: 0.95rem;
             }
-            
+
             .start-button {
                 font-size: 1.3rem;
                 padding: 12px 35px;
                 margin: 10px;
             }
-            
+
             .ranking-list {
                 font-size: 1.1rem;
                 padding: 20px;
                 margin: 15px 0;
                 max-width: 450px;
             }
-            
+
             .ranking-list h3 {
                 font-size: 1.5rem;
                 margin-bottom: 15px;
             }
-            
+
             .ranking-list .ranking-item {
                 margin: 6px 0;
                 padding: 6px 12px;
@@ -558,12 +572,12 @@
                 margin: 10px 0;
                 max-width: 400px;
             }
-            
+
             .ranking-list h3 {
                 font-size: 1.2rem;
                 margin-bottom: 10px;
             }
-            
+
             .ranking-list .ranking-item {
                 margin: 4px 0;
                 padding: 4px 8px;
@@ -606,12 +620,12 @@
                 margin: 5px 0;
                 max-width: 350px;
             }
-            
+
             .ranking-list h3 {
                 font-size: 1rem;
                 margin-bottom: 8px;
             }
-            
+
             .ranking-list .ranking-item {
                 margin: 2px 0;
                 padding: 2px 6px;
@@ -638,9 +652,9 @@
         <!-- スタート画面 -->
         <div id="startScreen" class="screen">
             <h1 class="title">走れ！うどんちゃん！</h1>
-            
+
             <img src="images/udon-chan.png" alt="うどんちゃん" class="character-image">
-            
+
             <div class="instructions">
                 <h3>遊び方</h3>
                 <ul>
@@ -651,7 +665,7 @@
                     <li>できるだけ長い距離を走り続けよう</li>
                 </ul>
             </div>
-            
+
             <button class="start-button" onclick="startGame()">ゲームスタート</button>
         </div>
 
@@ -660,7 +674,7 @@
         <div class="score-display" id="scoreDisplay" style="display: none;">スコア: 0</div>
         <div class="star-display" id="starDisplay" style="display: none;">⭐️: 0</div>
         <div class="game-instructions" id="gameInstructions" style="display: none;">スペースキー または 画面タップでジャンプ！</div>
-        
+
         <!-- ゲームオーバー画面 -->
         <div id="gameOverScreen" class="screen hidden">
             <h1>ゲームオーバー</h1>
@@ -686,18 +700,26 @@
         const finalStarsSpan = document.getElementById('finalStars');
         const starResult = document.getElementById('starResult');
         const rankingList = document.getElementById('rankingList');
-        
+
+        // デバイスの高さを取得
+        function setRealVh() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        setRealVh();
+        window.addEventListener('resize', setRealVh);
+
         // 音声ファイルの設定
         const bgm = new Audio('audios/bgm.mp3');
-        bgm.loop = true; 
+        bgm.loop = true;
         bgm.volume = 0.3;
-        
+
         const jumpSound = new Audio('audios/jump.mp3');
         jumpSound.volume = 0.5;
-        
+
         const gameOverSound = new Audio('audios/gameover.mp3');
         gameOverSound.volume = 0.7;
-        
+
         const udonImage = new Image();
         udonImage.src = 'images/udon-chan.png';
 
@@ -706,7 +728,7 @@
             canvas.width = container.offsetWidth;
             canvas.height = container.offsetHeight;
         }
-        
+
         let gameRunning = false;
         let score = 0;
         let starsCollected = 0;
@@ -736,13 +758,13 @@
             scoreDisplay.style.display = 'block';
             starDisplay.style.display = 'block';
             gameInstructions.style.display = 'block';
-            
+
             // BGMを再生
             bgm.currentTime = 0;
             bgm.play().catch(e => {
                 console.log('BGM playback failed:', e);
             });
-            
+
             // ゲームを初期化して開始
             initGame();
             gameRunning = true;
@@ -756,13 +778,13 @@
             gameSpeed = 5;
             jumpCount = 0;
             spacePressed = false;
-            
+
             // プレイヤーの初期化
             player.x = 150;
             player.y = 400;
             player.velocityY = 0;
             player.onGround = false;
-            
+
             // プラットフォームとスターの初期化
             initPlatforms();
             stars = [];
@@ -797,19 +819,19 @@
             platforms = [createPlatform(0, 500, 500, 0)];
             let lastX = 500;
             let lastY = 500;
-            
+
             for (let i = 0; i < 8; i++) {
                 const isMobile = window.innerWidth <= 768;
                 const minY = isMobile ? canvas.height * 0.4 : 150;
                 const maxY = 550;
-                
+
                 let gap = Math.random() * 200 + 100;
                 if (Math.random() < 0.4) {
                     gap = Math.random() * 150 + 250;
                 }
-                
+
                 const width = Math.random() * 150 + 120;
-                
+
                 let slope = 0;
                 const slopeChance = Math.random();
                 if (slopeChance < 0.25) {
@@ -817,26 +839,26 @@
                 } else if (slopeChance < 0.5) {
                     slope = -(Math.random() * 80 + 40);
                 }
-                
+
                 let nextY = lastY + (Math.random() - 0.5) * 200;
-                
+
                 // 難易度アップ：時々非常に高い足場を生成
                 if (Math.random() < 0.15) {
                     nextY = minY + Math.random() * 100;
                 }
-                
+
                 nextY = Math.max(minY, Math.min(maxY, nextY));
-                
+
                 lastX += gap;
                 platforms.push(createPlatform(lastX, nextY, width, slope));
-                
+
                 // 超低確率でスターを生成（1%の確率）
                 if (Math.random() < 0.01) {
                     const starX = lastX + width / 2 - 15;
                     const starY = nextY - 50;
                     stars.push(createStar(starX, starY));
                 }
-                
+
                 lastX += width;
                 lastY = slope !== 0 ? nextY + slope : nextY;
             }
@@ -845,28 +867,28 @@
         function updatePlatforms() {
             for (let p of platforms) p.x -= gameSpeed;
             platforms = platforms.filter(p => p.x + p.width > -100);
-            
+
             // スターも移動
             for (let star of stars) {
                 star.x -= gameSpeed;
                 star.sparkle += 0.2;
             }
             stars = stars.filter(star => star.x + star.width > -100 && !star.collected);
-            
+
             if (platforms.length < 8) {
                 const last = platforms[platforms.length - 1];
-                
+
                 const isMobile = window.innerWidth <= 768;
                 const minY = isMobile ? canvas.height * 0.4 : 150;
                 const maxY = 550;
-                
+
                 let gap = Math.random() * 200 + 100;
                 if (Math.random() < 0.4) {
                     gap = Math.random() * 150 + 250;
                 }
-                
+
                 const width = Math.random() * 150 + 120;
-                
+
                 let slope = 0;
                 const slopeChance = Math.random();
                 if (slopeChance < 0.25) {
@@ -874,20 +896,20 @@
                 } else if (slopeChance < 0.5) {
                     slope = -(Math.random() * 80 + 40);
                 }
-                
+
                 let prevEndY = last.slope !== 0 ? last.y + last.slope : last.y;
                 let nextY = prevEndY + (Math.random() - 0.5) * 200;
-                
+
                 // 難易度アップ：時々非常に高い足場を生成
                 if (Math.random() < 0.15) {
                     nextY = minY + Math.random() * 100;
                 }
-                
+
                 nextY = Math.max(minY, Math.min(maxY, nextY));
-                
+
                 const newPlatform = createPlatform(last.x + last.width + gap, nextY, width, slope);
                 platforms.push(newPlatform);
-                
+
                 // 超低確率でスターを生成
                 if (Math.random() < 0.01) {
                     const starX = newPlatform.x + width / 2 - 15;
@@ -901,7 +923,7 @@
             player.velocityY += gravity;
             player.y += player.velocityY;
             player.onGround = false;
-            
+
             // プラットフォームとの衝突判定
             for (let platform of platforms) {
                 if (player.x + player.width > platform.x && player.x < platform.x + platform.width) {
@@ -920,7 +942,7 @@
                     }
                 }
             }
-            
+
             // スターとの衝突判定
             for (let star of stars) {
                 if (!star.collected &&
@@ -931,20 +953,20 @@
                     star.collected = true;
                     starsCollected++;
                     starDisplay.textContent = `⭐️: ${starsCollected}`;
-                    
+
                     // スター獲得音（ジャンプ音を代用）
                     jumpSound.currentTime = 0;
                     jumpSound.play().catch(e => console.log('Star sound failed:', e));
                 }
             }
-            
+
             if (player.y > canvas.height) gameOver();
             if (player.y < 0) { player.y = 0; player.velocityY = 0; }
         }
 
         function jump() {
             if (!gameRunning) return;
-            
+
             if (player.onGround || jumpCount < maxJumps) {
                 player.velocityY = jumpPower;
                 if (!player.onGround) jumpCount++;
@@ -963,13 +985,13 @@
                     // スターのキラキラエフェクト
                     const alpha = 0.8 + 0.2 * Math.sin(star.sparkle);
                     ctx.globalAlpha = alpha;
-                    
+
                     // スターの描画
                     ctx.fillStyle = '#FFD700';
                     ctx.font = '30px Arial';
                     ctx.textAlign = 'center';
                     ctx.fillText('⭐️', star.x + star.width / 2, star.y + star.height);
-                    
+
                     ctx.globalAlpha = 1.0;
                 }
             }
@@ -982,7 +1004,7 @@
             sky.addColorStop(1, '#E0F6FF');
             ctx.fillStyle = sky;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+
             for (let p of platforms) {
                 ctx.fillStyle = p.color;
                 if (p.slope === 0) {
@@ -993,11 +1015,11 @@
                     ctx.lineTo(p.x + p.width, p.y + p.slope);
                     ctx.lineTo(p.x + p.width, canvas.height);
                     ctx.lineTo(p.x, canvas.height);
-                    ctx.closePath(); 
+                    ctx.closePath();
                     ctx.fill();
                 }
             }
-            
+
             drawStars();
             drawPlayer();
         }
@@ -1015,23 +1037,23 @@
 
         function gameOver() {
             gameRunning = false;
-            bgm.pause(); 
+            bgm.pause();
             bgm.currentTime = 0;
-            
+
             gameOverSound.currentTime = 0;
             gameOverSound.play().catch(e => console.log('Game over sound failed:', e));
-            
+
             saveScore(score);
             finalScoreSpan.textContent = score;
             finalStarsSpan.textContent = starsCollected;
-            
+
             // スター獲得表示
             if (starsCollected > 0) {
                 starResult.style.display = 'block';
             } else {
                 starResult.style.display = 'none';
             }
-            
+
             displayRanking();
             gameOverScreen.classList.remove('hidden');
         }
@@ -1047,7 +1069,7 @@
         function displayRanking() {
             const scores = JSON.parse(localStorage.getItem('udonRunnerScores') || '[]');
             let rankingHTML = '<h3>ランキング</h3>';
-            
+
             if (scores.length === 0) {
                 rankingHTML += '<div class="ranking-item">まだ記録がありません</div>';
             } else {
@@ -1055,7 +1077,7 @@
                     rankingHTML += `<div class="ranking-item">${index + 1}位: ${score}点</div>`;
                 });
             }
-            
+
             rankingList.innerHTML = rankingHTML;
         }
 
@@ -1063,22 +1085,22 @@
         document.addEventListener('keydown', e => {
             if (e.code === 'Space' && !spacePressed) {
                 e.preventDefault();
-                jump(); 
+                jump();
                 spacePressed = true;
             }
         });
-        
-        document.addEventListener('keyup', e => { 
-            if (e.code === 'Space') spacePressed = false; 
+
+        document.addEventListener('keyup', e => {
+            if (e.code === 'Space') spacePressed = false;
         });
-        
-        canvas.addEventListener('touchstart', e => { 
-            e.preventDefault(); 
-            jump(); 
+
+        canvas.addEventListener('touchstart', e => {
+            e.preventDefault();
+            jump();
         });
-        
-        canvas.addEventListener('click', e => { 
-            jump(); 
+
+        canvas.addEventListener('click', e => {
+            jump();
         });
 
         // 初期化
