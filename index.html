@@ -16,7 +16,7 @@
 
         body {
             font-family: "DotGothic16", sans-serif;
-            background: linear-gradient(135deg, #FFE4B5 0%, #FFF8DC 50%, #F0E68C 100%);
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 100%);
             overflow: hidden;
             height: 100vh;
             width: 100vw;
@@ -58,7 +58,7 @@
 
         /* スタート画面のスタイル */
         #startScreen {
-            background: linear-gradient(135deg, #FFE4B5 0%, #FFF8DC 50%, #F0E68C 100%);
+            background: #fff;
             color: #333;
             animation: fadeIn 1s ease-in-out;
             justify-content: flex-start;
@@ -79,8 +79,8 @@
         .title {
             font-size: 3.5rem;
             font-weight: bold;
-            color: #FF6B35;
-            text-shadow: 3px 3px 0px #FFD700;
+            color: rgb(44, 44, 243);
+            text-shadow: 3px 3px 0px rgb(175, 175, 208);
             margin-bottom: 30px;
             animation: bounce 2s infinite;
             margin-top: 20px;
@@ -102,7 +102,7 @@
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            border: 5px solid #FFD700;
+            border: 5px solid #0066ff;
             margin: 20px auto;
             display: block;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
@@ -115,8 +115,8 @@
         }
 
         .instructions {
-            background: #FFF8DC;
-            border: 3px solid #FFD700;
+            background: #fff;
+            border: 3px solid #0066ff;
             border-radius: 20px;
             padding: 30px;
             margin: 25px 0;
@@ -130,7 +130,7 @@
         }
 
         .instructions h3 {
-            color: #FF6B35;
+            color: #0066ff;
             font-size: 1.6rem;
             margin-bottom: 20px;
         }
@@ -149,7 +149,7 @@
         }
 
         .instructions li:before {
-            content: "🍜";
+            content: "🤍";
             position: absolute;
             left: 0;
             top: 0;
@@ -179,7 +179,7 @@
 
         .start-button {
             font-family: "DotGothic16", sans-serif;
-            background: linear-gradient(45deg, #FF6B35, #FF8C42);
+            background: linear-gradient(45deg, #0066ff, #3382f7);
             color: white;
             font-size: 1.6rem;
             font-weight: bold;
@@ -187,7 +187,7 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 8px 25px rgba(49, 58, 65, 0.4);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -196,14 +196,14 @@
         }
 
         .start-button:hover {
-            background: linear-gradient(45deg, #FF8C42, #FF6B35);
+            background: linear-gradient(45deg, #3382f7, #0066ff);
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
+            box-shadow: 0 12px 35px rgba(49, 58, 65, 0.6);
         }
 
         .start-button:active {
             transform: translateY(0);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 5px 15px rgba(49, 58, 65, 0.4);
         }
 
         .score-display {
@@ -216,6 +216,19 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             background: rgba(0, 0, 0, 0.3);
             padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .star-display {
+            position: absolute;
+            top: 90px;
+            left: 30px;
+            color: #FFD700;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
             border-radius: 10px;
         }
 
@@ -235,8 +248,8 @@
 
         /* ランキングのスタイル */
         .ranking-list {
-            background: #FFF8DC;
-            border: 3px solid #FFD700;
+            background: #FFF;
+            border: 3px solid #0066ff;
             border-radius: 20px;
             padding: 30px;
             margin: 20px 0;
@@ -250,7 +263,7 @@
         }
 
         .ranking-list h3 {
-            color: #FF6B35;
+            color: #0066ff;
             font-size: 1.8rem;
             margin-bottom: 20px;
             text-align: center;
@@ -285,29 +298,17 @@
             content: "🥉";
         }
 
-        /* 背景アニメーション */
-        #startScreen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 140, 66, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 107, 53, 0.2) 0%, transparent 50%);
-            z-index: -1;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+        .star-result {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: 3px solid #FF8C00;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.4rem;
+            color: #8B4513;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
         }
 
         /* モバイル向け調整 */
@@ -354,6 +355,13 @@
                 padding: 8px 15px;
             }
 
+            .star-display {
+                font-size: 1.2rem;
+                top: 70px;
+                left: 20px;
+                padding: 6px 12px;
+            }
+
             .game-instructions {
                 font-size: 1rem;
                 bottom: 20px;
@@ -386,6 +394,12 @@
             #gameOverScreen .score-text {
                 font-size: 1.2rem;
                 margin: 10px 0;
+            }
+
+            .star-result {
+                font-size: 1.2rem;
+                padding: 15px;
+                margin: 15px 0;
             }
         }
 
@@ -421,6 +435,10 @@
                 font-size: 1.1rem;
             }
 
+            .star-display {
+                font-size: 1rem;
+            }
+
             .game-instructions {
                 font-size: 0.9rem;
             }
@@ -433,6 +451,11 @@
             #gameOverScreen .score-text {
                 font-size: 1rem;
                 margin: 8px 0;
+            }
+
+            .star-result {
+                font-size: 1rem;
+                padding: 12px;
             }
         }
 
@@ -504,6 +527,12 @@
                 font-size: 1.2rem;
                 margin: 8px 0;
             }
+
+            .star-result {
+                font-size: 1.1rem;
+                padding: 15px;
+                margin: 10px 0;
+            }
         }
 
         /* 極端に縦長の画面（スマートフォンなど）の対応 */
@@ -545,6 +574,12 @@
                 font-size: 1rem;
                 padding: 8px 25px;
                 margin: 8px;
+            }
+
+            .star-result {
+                font-size: 0.9rem;
+                padding: 10px;
+                margin: 8px 0;
             }
         }
 
@@ -588,6 +623,12 @@
                 padding: 6px 20px;
                 margin: 5px;
             }
+
+            .star-result {
+                font-size: 0.8rem;
+                padding: 8px;
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
@@ -606,6 +647,7 @@
                     <li>うどんちゃんを操作して崖に落ちないようにしよう</li>
                     <li>スペースキーまたはタップでジャンプ</li>
                     <li>2段ジャンプもできるよ!<br>(タイミングが合えば、3段ジャンプまで!)</li>
+                    <li>超低確率で⭐️が出現！ゲットしてラッキー気分を味わおう</li>
                     <li>できるだけ長い距離を走り続けよう</li>
                 </ul>
             </div>
@@ -616,12 +658,16 @@
         <!-- ゲーム画面 -->
         <canvas id="gameCanvas" style="display: none;"></canvas>
         <div class="score-display" id="scoreDisplay" style="display: none;">スコア: 0</div>
+        <div class="star-display" id="starDisplay" style="display: none;">⭐️: 0</div>
         <div class="game-instructions" id="gameInstructions" style="display: none;">スペースキー または 画面タップでジャンプ！</div>
         
         <!-- ゲームオーバー画面 -->
         <div id="gameOverScreen" class="screen hidden">
             <h1>ゲームオーバー</h1>
-            <p style="font-size: 1.5rem; margin-bottom: 2rem;">スコア: <span id="finalScore">0</span></p>
+            <p style="font-size: 1.5rem; margin-bottom: 1rem;">スコア: <span id="finalScore">0</span></p>
+            <div class="star-result" id="starResult" style="display: none;">
+                ⭐️を<span id="finalStars">0</span>個獲得しました！
+            </div>
             <div class="ranking-list" id="rankingList"></div>
             <p><small>ブラウザのキャッシュを削除すると、ランキングがリセットされます。ご注意ください。</small></p>
             <button class="start-button" onclick="restartGame()">もう一度プレイする</button>
@@ -632,10 +678,13 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('scoreDisplay');
+        const starDisplay = document.getElementById('starDisplay');
         const gameInstructions = document.getElementById('gameInstructions');
         const startScreen = document.getElementById('startScreen');
         const gameOverScreen = document.getElementById('gameOverScreen');
         const finalScoreSpan = document.getElementById('finalScore');
+        const finalStarsSpan = document.getElementById('finalStars');
+        const starResult = document.getElementById('starResult');
         const rankingList = document.getElementById('rankingList');
         
         // 音声ファイルの設定
@@ -660,8 +709,10 @@
         
         let gameRunning = false;
         let score = 0;
+        let starsCollected = 0;
         let gameSpeed = 5;
         let platforms = [];
+        let stars = [];
         let jumpCount = 0;
         let maxJumps = 2;
         let spacePressed = false;
@@ -683,6 +734,7 @@
             startScreen.classList.add('hidden');
             canvas.style.display = 'block';
             scoreDisplay.style.display = 'block';
+            starDisplay.style.display = 'block';
             gameInstructions.style.display = 'block';
             
             // BGMを再生
@@ -700,6 +752,7 @@
         function initGame() {
             resizeCanvas();
             score = 0;
+            starsCollected = 0;
             gameSpeed = 5;
             jumpCount = 0;
             spacePressed = false;
@@ -710,8 +763,9 @@
             player.velocityY = 0;
             player.onGround = false;
             
-            // プラットフォームの初期化
+            // プラットフォームとスターの初期化
             initPlatforms();
+            stars = [];
         }
 
         function restartGame() {
@@ -719,12 +773,24 @@
             startScreen.classList.remove('hidden');
             canvas.style.display = 'none';
             scoreDisplay.style.display = 'none';
+            starDisplay.style.display = 'none';
             gameInstructions.style.display = 'none';
             gameRunning = false;
         }
 
         function createPlatform(x, y, width, slope = 0) {
             return { x, y, width, height: canvas.height - y, slope, color: '#2c3e50' };
+        }
+
+        function createStar(x, y) {
+            return {
+                x: x,
+                y: y,
+                width: 30,
+                height: 30,
+                collected: false,
+                sparkle: 0
+            };
         }
 
         function initPlatforms() {
@@ -734,12 +800,12 @@
             
             for (let i = 0; i < 8; i++) {
                 const isMobile = window.innerWidth <= 768;
-                const minY = isMobile ? canvas.height * 0.5 : 200;
+                const minY = isMobile ? canvas.height * 0.4 : 150;
                 const maxY = 550;
                 
                 let gap = Math.random() * 200 + 100;
-                if (Math.random() < 0.3) {
-                    gap = Math.random() * 100 + 250;
+                if (Math.random() < 0.4) {
+                    gap = Math.random() * 150 + 250;
                 }
                 
                 const width = Math.random() * 150 + 120;
@@ -752,11 +818,25 @@
                     slope = -(Math.random() * 80 + 40);
                 }
                 
-                let nextY = lastY + (Math.random() - 0.5) * 150;
+                let nextY = lastY + (Math.random() - 0.5) * 200;
+                
+                // 難易度アップ：時々非常に高い足場を生成
+                if (Math.random() < 0.15) {
+                    nextY = minY + Math.random() * 100;
+                }
+                
                 nextY = Math.max(minY, Math.min(maxY, nextY));
                 
                 lastX += gap;
                 platforms.push(createPlatform(lastX, nextY, width, slope));
+                
+                // 超低確率でスターを生成（1%の確率）
+                if (Math.random() < 0.01) {
+                    const starX = lastX + width / 2 - 15;
+                    const starY = nextY - 50;
+                    stars.push(createStar(starX, starY));
+                }
+                
                 lastX += width;
                 lastY = slope !== 0 ? nextY + slope : nextY;
             }
@@ -766,16 +846,23 @@
             for (let p of platforms) p.x -= gameSpeed;
             platforms = platforms.filter(p => p.x + p.width > -100);
             
+            // スターも移動
+            for (let star of stars) {
+                star.x -= gameSpeed;
+                star.sparkle += 0.2;
+            }
+            stars = stars.filter(star => star.x + star.width > -100 && !star.collected);
+            
             if (platforms.length < 8) {
                 const last = platforms[platforms.length - 1];
                 
                 const isMobile = window.innerWidth <= 768;
-                const minY = isMobile ? canvas.height * 0.5 : 200;
+                const minY = isMobile ? canvas.height * 0.4 : 150;
                 const maxY = 550;
                 
                 let gap = Math.random() * 200 + 100;
-                if (Math.random() < 0.3) {
-                    gap = Math.random() * 100 + 250;
+                if (Math.random() < 0.4) {
+                    gap = Math.random() * 150 + 250;
                 }
                 
                 const width = Math.random() * 150 + 120;
@@ -789,10 +876,24 @@
                 }
                 
                 let prevEndY = last.slope !== 0 ? last.y + last.slope : last.y;
-                let nextY = prevEndY + (Math.random() - 0.5) * 150;
+                let nextY = prevEndY + (Math.random() - 0.5) * 200;
+                
+                // 難易度アップ：時々非常に高い足場を生成
+                if (Math.random() < 0.15) {
+                    nextY = minY + Math.random() * 100;
+                }
+                
                 nextY = Math.max(minY, Math.min(maxY, nextY));
                 
-                platforms.push(createPlatform(last.x + last.width + gap, nextY, width, slope));
+                const newPlatform = createPlatform(last.x + last.width + gap, nextY, width, slope);
+                platforms.push(newPlatform);
+                
+                // 超低確率でスターを生成
+                if (Math.random() < 0.01) {
+                    const starX = newPlatform.x + width / 2 - 15;
+                    const starY = nextY - 50;
+                    stars.push(createStar(starX, starY));
+                }
             }
         }
 
@@ -801,6 +902,7 @@
             player.y += player.velocityY;
             player.onGround = false;
             
+            // プラットフォームとの衝突判定
             for (let platform of platforms) {
                 if (player.x + player.width > platform.x && player.x < platform.x + platform.width) {
                     let platformTopY = platform.y;
@@ -816,6 +918,23 @@
                         jumpCount = 0;
                         break;
                     }
+                }
+            }
+            
+            // スターとの衝突判定
+            for (let star of stars) {
+                if (!star.collected &&
+                    player.x < star.x + star.width &&
+                    player.x + player.width > star.x &&
+                    player.y < star.y + star.height &&
+                    player.y + player.height > star.y) {
+                    star.collected = true;
+                    starsCollected++;
+                    starDisplay.textContent = `⭐️: ${starsCollected}`;
+                    
+                    // スター獲得音（ジャンプ音を代用）
+                    jumpSound.currentTime = 0;
+                    jumpSound.play().catch(e => console.log('Star sound failed:', e));
                 }
             }
             
@@ -836,6 +955,24 @@
 
         function drawPlayer() {
             ctx.drawImage(udonImage, player.x, player.y, player.width, player.height);
+        }
+
+        function drawStars() {
+            for (let star of stars) {
+                if (!star.collected) {
+                    // スターのキラキラエフェクト
+                    const alpha = 0.8 + 0.2 * Math.sin(star.sparkle);
+                    ctx.globalAlpha = alpha;
+                    
+                    // スターの描画
+                    ctx.fillStyle = '#FFD700';
+                    ctx.font = '30px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⭐️', star.x + star.width / 2, star.y + star.height);
+                    
+                    ctx.globalAlpha = 1.0;
+                }
+            }
         }
 
         function draw() {
@@ -860,6 +997,8 @@
                     ctx.fill();
                 }
             }
+            
+            drawStars();
             drawPlayer();
         }
 
@@ -884,6 +1023,15 @@
             
             saveScore(score);
             finalScoreSpan.textContent = score;
+            finalStarsSpan.textContent = starsCollected;
+            
+            // スター獲得表示
+            if (starsCollected > 0) {
+                starResult.style.display = 'block';
+            } else {
+                starResult.style.display = 'none';
+            }
+            
             displayRanking();
             gameOverScreen.classList.remove('hidden');
         }
