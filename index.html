@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,22 +17,52 @@
         body {
             font-family: "DotGothic16", sans-serif;
             background: linear-gradient(135deg, #FFE4B5 0%, #FFF8DC 50%, #F0E68C 100%);
-            min-height: 100vh;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #gameContainer {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 100%);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            text-align: center;
+            z-index: 10;
+            overflow-y: auto;
             padding: 20px;
         }
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 40px 30px;
-            text-align: center;
+        .screen.hidden {
+            display: none;
+        }
+
+        /* スタート画面のスタイル */
+        #startScreen {
+            background: linear-gradient(135deg, #FFE4B5 0%, #FFF8DC 50%, #F0E68C 100%);
+            color: #333;
             animation: fadeIn 1s ease-in-out;
+            justify-content: flex-start;
+            padding: 20px;
         }
 
         @keyframes fadeIn {
@@ -46,12 +77,13 @@
         }
 
         .title {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
             color: #FF6B35;
             text-shadow: 3px 3px 0px #FFD700;
             margin-bottom: 30px;
             animation: bounce 2s infinite;
+            margin-top: 20px;
         }
 
         @keyframes bounce {
@@ -67,14 +99,15 @@
         }
 
         .character-image {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             border: 5px solid #FFD700;
             margin: 20px auto;
             display: block;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
+            flex-shrink: 0;
         }
 
         .character-image:hover {
@@ -84,18 +117,22 @@
         .instructions {
             background: #FFF8DC;
             border: 3px solid #FFD700;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 30px 0;
-            font-size: 1.1rem;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+            font-size: 1.2rem;
             line-height: 1.6;
             color: #333;
+            max-width: 500px;
+            width: 80%;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
         .instructions h3 {
             color: #FF6B35;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
         }
 
         .instructions ul {
@@ -105,9 +142,10 @@
         }
 
         .instructions li {
-            margin: 10px 0;
-            padding-left: 25px;
+            margin: 12px 0;
+            padding-left: 35px;
             position: relative;
+            font-size: 1.1rem;
         }
 
         .instructions li:before {
@@ -115,91 +153,142 @@
             position: absolute;
             left: 0;
             top: 0;
+            font-size: 1.2rem;
+        }
+
+        /* ゲームオーバー画面のスタイル */
+        #gameOverScreen {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            justify-content: flex-start;
+            padding: 10px;
+            min-height: 100vh;
+        }
+
+        #gameOverScreen h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+            flex-shrink: 0;
+        }
+
+        #gameOverScreen .score-text {
+            font-size: 1.5rem;
+            margin: 15px 0;
+            flex-shrink: 0;
         }
 
         .start-button {
             font-family: "DotGothic16", sans-serif;
             background: linear-gradient(45deg, #FF6B35, #FF8C42);
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: bold;
-            padding: 15px 40px;
+            padding: 18px 45px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            margin: 15px;
+            flex-shrink: 0;
         }
 
         .start-button:hover {
             background: linear-gradient(45deg, #FF8C42, #FF6B35);
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
         }
 
         .start-button:active {
             transform: translateY(0);
-            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
         }
 
-        /* レスポンシブデザイン */
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-
-            .title {
-                font-size: 2.2rem;
-            }
-
-            .character-image {
-                width: 150px;
-                height: 150px;
-            }
-
-            .instructions {
-                font-size: 1rem;
-                padding: 20px;
-            }
-
-            .instructions h3 {
-                font-size: 1.3rem;
-            }
-
-            .start-button {
-                font-size: 1.2rem;
-                padding: 12px 30px;
-            }
+        .score-display {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
         }
 
-        @media (max-width: 480px) {
-            .title {
-                font-size: 1.8rem;
-            }
+        .game-instructions {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            border-radius: 10px;
+        }
 
-            .character-image {
-                width: 120px;
-                height: 120px;
-            }
+        /* ランキングのスタイル */
+        .ranking-list {
+            background: #FFF8DC;
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #333;
+            max-width: 500px;
+            width: 80%;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
 
-            .instructions {
-                font-size: 0.9rem;
-                padding: 15px;
-            }
+        .ranking-list h3 {
+            color: #FF6B35;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-            .start-button {
-                font-size: 1rem;
-                padding: 10px 25px;
-            }
+        .ranking-list .ranking-item {
+            margin: 12px 0;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .ranking-list .ranking-item:before {
+            content: "🏆";
+            margin-right: 12px;
+            font-size: 1.3rem;
+        }
+
+        .ranking-list .ranking-item:nth-child(2):before {
+            content: "🥇";
+        }
+
+        .ranking-list .ranking-item:nth-child(3):before {
+            content: "🥈";
+        }
+
+        .ranking-list .ranking-item:nth-child(4):before {
+            content: "🥉";
         }
 
         /* 背景アニメーション */
-        body::before {
+        #startScreen::before {
             content: '';
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -220,25 +309,634 @@
                 transform: translateY(-20px);
             }
         }
+
+        /* モバイル向け調整 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
+
+            .character-image {
+                width: 150px;
+                height: 150px;
+                margin: 15px auto;
+            }
+
+            .instructions {
+                font-size: 1rem;
+                padding: 20px;
+                margin: 20px 0;
+                max-width: 90%;
+            }
+
+            .instructions h3 {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+            }
+
+            .instructions li {
+                font-size: 0.95rem;
+                margin: 10px 0;
+                padding-left: 30px;
+            }
+
+            .start-button {
+                font-size: 1.2rem;
+                padding: 12px 30px;
+                letter-spacing: 2px;
+            }
+
+            .score-display {
+                font-size: 1.3rem;
+                top: 20px;
+                left: 20px;
+                padding: 8px 15px;
+            }
+
+            .game-instructions {
+                font-size: 1rem;
+                bottom: 20px;
+                padding: 10px 20px;
+            }
+
+            .ranking-list {
+                font-size: 1rem;
+                padding: 20px;
+                margin: 20px 0;
+                max-width: 90%;
+            }
+
+            .ranking-list h3 {
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+            }
+
+            .ranking-list .ranking-item {
+                font-size: 0.95rem;
+                padding: 8px 15px;
+                margin: 8px 0;
+            }
+
+            #gameOverScreen h1 {
+                font-size: 2.2rem;
+                margin: 15px 0;
+            }
+
+            #gameOverScreen .score-text {
+                font-size: 1.2rem;
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .character-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .instructions {
+                font-size: 0.9rem;
+                padding: 15px;
+            }
+
+            .instructions h3 {
+                font-size: 1.2rem;
+            }
+
+            .instructions li {
+                font-size: 0.85rem;
+            }
+
+            .start-button {
+                font-size: 1rem;
+                padding: 10px 25px;
+            }
+
+            .score-display {
+                font-size: 1.1rem;
+            }
+
+            .game-instructions {
+                font-size: 0.9rem;
+            }
+
+            #gameOverScreen h1 {
+                font-size: 1.8rem;
+                margin: 10px 0;
+            }
+
+            #gameOverScreen .score-text {
+                font-size: 1rem;
+                margin: 8px 0;
+            }
+        }
+
+        /* 縦長画面の対応 */
+        @media (max-height: 600px) {
+            .title {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+                margin-top: 10px;
+            }
+            
+            .character-image {
+                width: 120px;
+                height: 120px;
+                margin: 10px auto;
+            }
+            
+            .instructions {
+                font-size: 1rem;
+                padding: 20px;
+                margin: 15px 0;
+                max-width: 450px;
+            }
+            
+            .instructions h3 {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+            }
+            
+            .instructions li {
+                margin: 8px 0;
+                font-size: 0.95rem;
+            }
+            
+            .start-button {
+                font-size: 1.3rem;
+                padding: 12px 35px;
+                margin: 10px;
+            }
+            
+            .ranking-list {
+                font-size: 1.1rem;
+                padding: 20px;
+                margin: 15px 0;
+                max-width: 450px;
+            }
+            
+            .ranking-list h3 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .ranking-list .ranking-item {
+                margin: 6px 0;
+                padding: 6px 12px;
+                font-size: 1rem;
+            }
+
+            #gameOverScreen {
+                padding: 5px;
+            }
+
+            #gameOverScreen h1 {
+                font-size: 2rem;
+                margin: 10px 0;
+            }
+
+            #gameOverScreen .score-text {
+                font-size: 1.2rem;
+                margin: 8px 0;
+            }
+        }
+
+        /* 極端に縦長の画面（スマートフォンなど）の対応 */
+        @media (max-height: 500px) {
+            #gameOverScreen {
+                padding: 2px;
+                justify-content: center;
+            }
+
+            #gameOverScreen h1 {
+                font-size: 1.8rem;
+                margin: 8px 0;
+            }
+
+            #gameOverScreen .score-text {
+                font-size: 1rem;
+                margin: 5px 0;
+            }
+
+            .ranking-list {
+                font-size: 0.9rem;
+                padding: 15px;
+                margin: 10px 0;
+                max-width: 400px;
+            }
+            
+            .ranking-list h3 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+            
+            .ranking-list .ranking-item {
+                margin: 4px 0;
+                padding: 4px 8px;
+                font-size: 0.85rem;
+            }
+
+            .start-button {
+                font-size: 1rem;
+                padding: 8px 25px;
+                margin: 8px;
+            }
+        }
+
+        /* 非常に短い画面の対応 */
+        @media (max-height: 400px) {
+            #gameOverScreen {
+                overflow-y: auto;
+                padding: 2px;
+            }
+
+            #gameOverScreen h1 {
+                font-size: 1.5rem;
+                margin: 5px 0;
+            }
+
+            #gameOverScreen .score-text {
+                font-size: 0.9rem;
+                margin: 3px 0;
+            }
+
+            .ranking-list {
+                font-size: 0.8rem;
+                padding: 10px;
+                margin: 5px 0;
+                max-width: 350px;
+            }
+            
+            .ranking-list h3 {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+            
+            .ranking-list .ranking-item {
+                margin: 2px 0;
+                padding: 2px 6px;
+                font-size: 0.75rem;
+            }
+
+            .start-button {
+                font-size: 0.9rem;
+                padding: 6px 20px;
+                margin: 5px;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1 class="title">走れ！うどんちゃん！</h1>
-        
-        <img src="images/udon-chan.png" alt="うどんちゃん" class="character-image">
-        
-        <div class="instructions">
-            <h3>遊び方</h3>
-            <ul>
-                <li>うどんちゃんを操作して崖に落ちないようにしよう</li>
-                <li>スペースキーまたはタップでジャンプ</li>
-                <li>できるだけ長い距離を走り続けよう</li>
-            </ul>
+    <div id="gameContainer">
+        <!-- スタート画面 -->
+        <div id="startScreen" class="screen">
+            <h1 class="title">走れ！うどんちゃん！</h1>
+            
+            <img src="images/udon-chan.png" alt="うどんちゃん" class="character-image">
+            
+            <div class="instructions">
+                <h3>遊び方</h3>
+                <ul>
+                    <li>うどんちゃんを操作して崖に落ちないようにしよう</li>
+                    <li>スペースキーまたはタップでジャンプ</li>
+                    <li>2段ジャンプもできるよ！</li>
+                    <li>できるだけ長い距離を走り続けよう</li>
+                </ul>
+            </div>
+            
+            <button class="start-button" onclick="startGame()">ゲームスタート</button>
         </div>
+
+        <!-- ゲーム画面 -->
+        <canvas id="gameCanvas" style="display: none;"></canvas>
+        <div class="score-display" id="scoreDisplay" style="display: none;">スコア: 0</div>
+        <div class="game-instructions" id="gameInstructions" style="display: none;">スペースキー または 画面タップでジャンプ！</div>
         
-        <button class="start-button" onclick="window.location.href='game.html'">ゲームスタート</button>
+        <!-- ゲームオーバー画面 -->
+        <div id="gameOverScreen" class="screen hidden">
+            <h1>ゲームオーバー</h1>
+            <p style="font-size: 1.5rem; margin-bottom: 2rem;">スコア: <span id="finalScore">0</span></p>
+            <div class="ranking-list" id="rankingList"></div>
+            <button class="start-button" onclick="restartGame()">もう一度プレイする</button>
+        </div>
     </div>
 
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const gameInstructions = document.getElementById('gameInstructions');
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const finalScoreSpan = document.getElementById('finalScore');
+        const rankingList = document.getElementById('rankingList');
+        
+        // 音声ファイルの設定
+        const bgm = new Audio('audios/bgm.mp3');
+        bgm.loop = true; 
+        bgm.volume = 0.3;
+        
+        const jumpSound = new Audio('audios/jump.mp3');
+        jumpSound.volume = 0.5;
+        
+        const gameOverSound = new Audio('audios/gameover.mp3');
+        gameOverSound.volume = 0.7;
+        
+        const udonImage = new Image();
+        udonImage.src = 'images/udon-chan.png';
+
+        function resizeCanvas() {
+            const container = document.getElementById('gameContainer');
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+        }
+        
+        let gameRunning = false;
+        let score = 0;
+        let gameSpeed = 5;
+        let platforms = [];
+        let jumpCount = 0;
+        let maxJumps = 2;
+        let spacePressed = false;
+
+        const player = {
+            x: 150,
+            y: 400,
+            width: 60,
+            height: 60,
+            velocityY: 0,
+            onGround: false
+        };
+
+        const gravity = 0.5;
+        const jumpPower = -12;
+
+        function startGame() {
+            // スタート画面を非表示にし、ゲーム画面を表示
+            startScreen.classList.add('hidden');
+            canvas.style.display = 'block';
+            scoreDisplay.style.display = 'block';
+            gameInstructions.style.display = 'block';
+            
+            // BGMを再生（ユーザーの操作後なので再生可能）
+            bgm.currentTime = 0;
+            bgm.play().catch(e => {
+                console.log('BGM playback failed:', e);
+            });
+            
+            // ゲームを初期化して開始
+            initGame();
+            gameRunning = true;
+            gameLoop();
+        }
+
+        function initGame() {
+            resizeCanvas();
+            score = 0;
+            gameSpeed = 5;
+            jumpCount = 0;
+            spacePressed = false;
+            
+            // プレイヤーの初期化
+            player.x = 150;
+            player.y = 400;
+            player.velocityY = 0;
+            player.onGround = false;
+            
+            // プラットフォームの初期化
+            initPlatforms();
+        }
+
+        function restartGame() {
+            gameOverScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+            canvas.style.display = 'none';
+            scoreDisplay.style.display = 'none';
+            gameInstructions.style.display = 'none';
+            gameRunning = false;
+        }
+
+        function createPlatform(x, y, width, slope = 0) {
+            return { x, y, width, height: canvas.height - y, slope, color: '#2c3e50' };
+        }
+
+        function initPlatforms() {
+            platforms = [createPlatform(0, 500, 500, 0)];
+            let lastX = 500;
+            let lastY = 500;
+            
+            for (let i = 0; i < 8; i++) {
+                const isMobile = window.innerWidth <= 768;
+                const minY = isMobile ? canvas.height * 0.5 : 200;
+                const maxY = 550;
+                
+                let gap = Math.random() * 200 + 100;
+                if (Math.random() < 0.3) {
+                    gap = Math.random() * 100 + 250;
+                }
+                
+                const width = Math.random() * 150 + 120;
+                
+                let slope = 0;
+                const slopeChance = Math.random();
+                if (slopeChance < 0.25) {
+                    slope = Math.random() * 80 + 40;
+                } else if (slopeChance < 0.5) {
+                    slope = -(Math.random() * 80 + 40);
+                }
+                
+                let nextY = lastY + (Math.random() - 0.5) * 150;
+                nextY = Math.max(minY, Math.min(maxY, nextY));
+                
+                lastX += gap;
+                platforms.push(createPlatform(lastX, nextY, width, slope));
+                lastX += width;
+                lastY = slope !== 0 ? nextY + slope : nextY;
+            }
+        }
+
+        function updatePlatforms() {
+            for (let p of platforms) p.x -= gameSpeed;
+            platforms = platforms.filter(p => p.x + p.width > -100);
+            
+            if (platforms.length < 8) {
+                const last = platforms[platforms.length - 1];
+                
+                const isMobile = window.innerWidth <= 768;
+                const minY = isMobile ? canvas.height * 0.5 : 200;
+                const maxY = 550;
+                
+                let gap = Math.random() * 200 + 100;
+                if (Math.random() < 0.3) {
+                    gap = Math.random() * 100 + 250;
+                }
+                
+                const width = Math.random() * 150 + 120;
+                
+                let slope = 0;
+                const slopeChance = Math.random();
+                if (slopeChance < 0.25) {
+                    slope = Math.random() * 80 + 40;
+                } else if (slopeChance < 0.5) {
+                    slope = -(Math.random() * 80 + 40);
+                }
+                
+                let prevEndY = last.slope !== 0 ? last.y + last.slope : last.y;
+                let nextY = prevEndY + (Math.random() - 0.5) * 150;
+                nextY = Math.max(minY, Math.min(maxY, nextY));
+                
+                platforms.push(createPlatform(last.x + last.width + gap, nextY, width, slope));
+            }
+        }
+
+        function updatePlayer() {
+            player.velocityY += gravity;
+            player.y += player.velocityY;
+            player.onGround = false;
+            
+            for (let platform of platforms) {
+                if (player.x + player.width > platform.x && player.x < platform.x + platform.width) {
+                    let platformTopY = platform.y;
+                    if (platform.slope !== 0) {
+                        const relX = player.x + player.width / 2 - platform.x;
+                        const slopeProgress = relX / platform.width;
+                        platformTopY += platform.slope * slopeProgress;
+                    }
+                    if (player.velocityY > 0 && player.y + player.height <= platformTopY + 10 && player.y + player.height >= platformTopY - 10) {
+                        player.y = platformTopY - player.height;
+                        player.velocityY = 0;
+                        player.onGround = true;
+                        jumpCount = 0;
+                        break;
+                    }
+                }
+            }
+            
+            if (player.y > canvas.height) gameOver();
+            if (player.y < 0) { player.y = 0; player.velocityY = 0; }
+        }
+
+        function jump() {
+            if (!gameRunning) return;
+            
+            if (player.onGround || jumpCount < maxJumps) {
+                player.velocityY = jumpPower;
+                if (!player.onGround) jumpCount++;
+                jumpSound.currentTime = 0;
+                jumpSound.play().catch(e => console.log('Jump sound failed:', e));
+            }
+        }
+
+        function drawPlayer() {
+            ctx.drawImage(udonImage, player.x, player.y, player.width, player.height);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            sky.addColorStop(0, '#87CEEB');
+            sky.addColorStop(1, '#E0F6FF');
+            ctx.fillStyle = sky;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let p of platforms) {
+                ctx.fillStyle = p.color;
+                if (p.slope === 0) {
+                    ctx.fillRect(p.x, p.y, p.width, p.height);
+                } else {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.x + p.width, p.y + p.slope);
+                    ctx.lineTo(p.x + p.width, canvas.height);
+                    ctx.lineTo(p.x, canvas.height);
+                    ctx.closePath(); 
+                    ctx.fill();
+                }
+            }
+            drawPlayer();
+        }
+
+        function gameLoop() {
+            if (!gameRunning) return;
+            updatePlayer();
+            updatePlatforms();
+            score++;
+            scoreDisplay.textContent = `スコア: ${score}`;
+            if (score % 500 === 0) gameSpeed += 0.2;
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            bgm.pause(); 
+            bgm.currentTime = 0;
+            
+            gameOverSound.currentTime = 0;
+            gameOverSound.play().catch(e => console.log('Game over sound failed:', e));
+            
+            saveScore(score);
+            finalScoreSpan.textContent = score;
+            displayRanking();
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        function saveScore(newScore) {
+            let scores = JSON.parse(localStorage.getItem('udonRunnerScores') || '[]');
+            scores.push(newScore);
+            scores.sort((a, b) => b - a);
+            scores = scores.slice(0, 5);
+            localStorage.setItem('udonRunnerScores', JSON.stringify(scores));
+        }
+
+        function displayRanking() {
+            const scores = JSON.parse(localStorage.getItem('udonRunnerScores') || '[]');
+            let rankingHTML = '<h3>ランキング</h3>';
+            
+            if (scores.length === 0) {
+                rankingHTML += '<div class="ranking-item">まだ記録がありません</div>';
+            } else {
+                scores.forEach((score, index) => {
+                    rankingHTML += `<div class="ranking-item">${index + 1}位: ${score}点</div>`;
+                });
+            }
+            
+            rankingList.innerHTML = rankingHTML;
+        }
+
+        // イベントリスナー
+        document.addEventListener('keydown', e => {
+            if (e.code === 'Space' && !spacePressed) {
+                e.preventDefault();
+                jump(); 
+                spacePressed = true;
+            }
+        });
+        
+        document.addEventListener('keyup', e => { 
+            if (e.code === 'Space') spacePressed = false; 
+        });
+        
+        canvas.addEventListener('touchstart', e => { 
+            e.preventDefault(); 
+            jump(); 
+        });
+        
+        canvas.addEventListener('click', e => { 
+            jump(); 
+        });
+
+        // 初期化
+        window.addEventListener('resize', () => {
+            if (gameRunning) resizeCanvas();
+        });
+    </script>
 </body>
+
 </html>
